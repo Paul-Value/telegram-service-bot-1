@@ -25,7 +25,7 @@ public class Category {
     private List<Category> subCategories = new ArrayList<>();
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
-    private List<Service> services = new ArrayList<>();
+    private List<Favor> favors = new ArrayList<>();
 
     // Геттеры, сеттеры, конструкторы
 }

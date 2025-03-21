@@ -15,7 +15,7 @@ public class OrderRequest {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "service_id")
-    private Service service;
+    private Favor favor;
 
     @Column(name = "customer_name")
     private String customerName;

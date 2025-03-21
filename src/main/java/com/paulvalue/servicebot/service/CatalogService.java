@@ -1,10 +1,11 @@
 package com.paulvalue.servicebot.service;
 
 import com.paulvalue.servicebot.model.Category;
+
+import com.paulvalue.servicebot.model.Favor;
 import com.paulvalue.servicebot.repository.CategoryRepository;
 import com.paulvalue.servicebot.repository.ServiceRepository;
 import org.springframework.stereotype.Service;
-
 
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class CatalogService {
         return categoryRepository.findByParent(parent);
     }
 
-    public List<Service> getServicesByCategory(Long categoryId) {
+    public List<Favor> getServicesByCategory(Long categoryId) {
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new RuntimeException("Category not found"));
         return serviceRepository.findByCategory(category);

@@ -13,7 +13,7 @@ public class OrderService {
                 .orElseThrow(() -> new RuntimeException("Service not found"));
 
         OrderRequest order = new OrderRequest();
-        order.setService(service);
+        order.setFavor(service);
         order.setPhone(phone);
         return orderRepository.save(order);
     }

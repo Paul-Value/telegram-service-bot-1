@@ -28,6 +28,4 @@ public class OrderRequest {
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status = OrderStatus.NEW;
-
-    // Геттеры, сеттеры, конструкторы
 }

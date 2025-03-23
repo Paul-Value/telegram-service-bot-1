@@ -2,6 +2,8 @@ package com.paulvalue.servicebot.service;
 
 import com.paulvalue.servicebot.model.Category;
 import com.paulvalue.servicebot.model.Favor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
@@ -14,10 +16,24 @@ import java.util.List;
 import static org.springframework.core.io.support.SpringFactoriesLoader.FailureHandler.handleMessage;
 
 @Component
+@RequiredArgsConstructor
 public class ServiceBot extends TelegramLongPollingBot {
     private final CatalogService catalogService;
     private final OrderService orderService;
     private final UserStateService userStateService;
+
+    @Value("${bot.token}")
+    private String botToken;
+
+    @Override
+    public String getBotUsername() {
+        return "ServiceCatalogBot";
+    }
+
+    @Override
+    public String getBotToken() {
+        return botToken;
+    }
 
     @Override
     public void onUpdateReceived(Update update) {

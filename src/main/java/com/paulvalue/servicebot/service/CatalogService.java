@@ -4,15 +4,17 @@ import com.paulvalue.servicebot.model.Category;
 
 import com.paulvalue.servicebot.model.Favor;
 import com.paulvalue.servicebot.repository.CategoryRepository;
-import com.paulvalue.servicebot.repository.ServiceRepository;
+import com.paulvalue.servicebot.repository.FavorRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CatalogService {
     private final CategoryRepository categoryRepository;
-    private final ServiceRepository serviceRepository;
+    private final FavorRepository favorRepository;
 
     public List<Category> getMainCategories() {
         return categoryRepository.findByParentIsNull();
@@ -27,6 +29,6 @@ public class CatalogService {
     public List<Favor> getServicesByCategory(Long categoryId) {
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new RuntimeException("Category not found"));
-        return serviceRepository.findByCategory(category);
+        return favorRepository.findByCategory(category);
     }
 }

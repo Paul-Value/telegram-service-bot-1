@@ -2,6 +2,7 @@ package com.paulvalue.servicebot.service;
 
 import com.paulvalue.servicebot.model.Category;
 import com.paulvalue.servicebot.model.Favor;
+import com.paulvalue.servicebot.model.OrderRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -22,6 +23,8 @@ public class ServiceBot extends TelegramLongPollingBot {
     private final CatalogService catalogService;
     private final OrderService orderService;
     private final UserStateService userStateService;
+
+    private Long lastServiceId;
 
     @Value("${bot.token}")
     private String botToken;
@@ -54,6 +57,7 @@ public class ServiceBot extends TelegramLongPollingBot {
 
     private void startOrderProcess(Long chatId, Long serviceId) throws TelegramApiException {
         userStateService.setUserState(chatId, "AWAITING_PHONE");
+        this.lastServiceId = serviceId;
         SendMessage message = new SendMessage();
         message.setChatId(chatId.toString());
         message.setText("Введите ваш телефон:");
@@ -66,12 +70,24 @@ public class ServiceBot extends TelegramLongPollingBot {
         String text = message.getText();
         String userState = userStateService.getCurrentState(chatId);
 
-        if (text.equals("/start")) {
+        if ("AWAITING_PHONE".equals(userState)) {
+            // Обработка ввода телефона
+            OrderRequest order = orderService.createOrder(lastServiceId, text);
+            sendMessage(chatId, "Заявка оформлена!");
+            userStateService.setUserState(chatId, "DEFAULT");
+        } else if (text.equals("/start")) {
             SendMessage msg = new SendMessage();
             msg.setChatId(chatId.toString());
             msg.setText("Добро пожаловать!");
             execute(msg);
         }
+    }
+
+    private void sendMessage(Long chatId, String text) throws TelegramApiException {
+        SendMessage message = new SendMessage();
+        message.setChatId(chatId.toString());
+        message.setText(text);
+        execute(message);
     }
 
     // Генерация кнопок

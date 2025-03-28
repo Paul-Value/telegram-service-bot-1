@@ -64,6 +64,7 @@ public class ServiceBot extends TelegramLongPollingBot {
     private void handleMessage(org.telegram.telegrambots.meta.api.objects.Message message) throws TelegramApiException {
         Long chatId = message.getChatId();
         String text = message.getText();
+        String userState = userStateService.getCurrentState(chatId);
 
         if (text.equals("/start")) {
             SendMessage msg = new SendMessage();

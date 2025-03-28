@@ -7,6 +7,8 @@ import com.paulvalue.servicebot.repository.FavorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class OrderService {
@@ -21,5 +23,9 @@ public class OrderService {
         order.setFavor(service);
         order.setPhone(phone);
         return orderRepository.save(order);
+    }
+
+    public List<OrderRequest> findAll() {
+        return orderRepository.findAll();
     }
 }

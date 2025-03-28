@@ -5,6 +5,7 @@ import com.paulvalue.servicebot.model.Category;
 import com.paulvalue.servicebot.model.Favor;
 import com.paulvalue.servicebot.repository.CategoryRepository;
 import com.paulvalue.servicebot.repository.FavorRepository;
+import jakarta.ws.rs.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -30,5 +31,13 @@ public class CatalogService {
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new RuntimeException("Category not found"));
         return favorRepository.findByCategory(category);
+    }
+
+    public Category getCategoryById(Long parentId) {
+        return categoryRepository.findById(parentId).orElseThrow(NotFoundException::new);
+    }
+
+    public Category saveCategory(Category category) {
+        return categoryRepository.save(category);
     }
 }

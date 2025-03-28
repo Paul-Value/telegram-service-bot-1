@@ -3,6 +3,7 @@ package com.paulvalue.servicebot.controller;
 import com.paulvalue.servicebot.model.Category;
 import com.paulvalue.servicebot.model.Favor;
 import com.paulvalue.servicebot.model.OrderRequest;
+import com.paulvalue.servicebot.model.dto.CategoryDTO;
 import com.paulvalue.servicebot.repository.FavorRepository;
 import com.paulvalue.servicebot.service.CatalogService;
 import com.paulvalue.servicebot.service.OrderService;
@@ -27,7 +28,7 @@ public class AdminController {
 
     @GetMapping("/orders")
     public ResponseEntity<List<OrderRequest>> getAllOrders() {
-        return ResponseEntity.ok(orderRepository.findAll());
+        return ResponseEntity.ok(orderService.findAll());
     }
 
     @PostMapping("/categories")
@@ -41,8 +42,4 @@ public class AdminController {
         return ResponseEntity.ok(catalogService.saveCategory(category));
     }
 
-    @GetMapping("/orders")
-    public ResponseEntity<List<OrderRequest>> getAllOrders() {
-        return ResponseEntity.ok(orderService.getAllOrders());
-    }
 }

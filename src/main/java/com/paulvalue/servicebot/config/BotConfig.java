@@ -13,5 +13,6 @@ public class BotConfig {
     public TelegramBotsApi telegramBotsApi(ServiceBot serviceBot) throws TelegramApiException {
         TelegramBotsApi api = new TelegramBotsApi(DefaultBotSession.class);
         api.registerBot(serviceBot);
+        return api;
     }
 }
